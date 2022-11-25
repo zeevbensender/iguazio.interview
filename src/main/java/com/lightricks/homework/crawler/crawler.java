@@ -1,13 +1,20 @@
 package com.lightricks.homework.crawler;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.lightricks.homework.crawler.service.Crawler;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@SpringBootApplication
 public class crawler {
 
+
 	public static void main(String[] args) {
-		SpringApplication.run(crawler.class, args);
+		if(args.length == 0) {
+			System.out.println("Usage: ");
+			System.exit(0);
+		}
+		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext("com.lightricks.homework.crawler.service");
+		Crawler service = context.getBean(Crawler.class);
+		service.parseDocument(args[0]);
 	}
 
 }
