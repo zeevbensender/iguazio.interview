@@ -7,45 +7,47 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-
 @Component
 public class CrawlingService {
     private static final Logger LOG = LoggerFactory.getLogger(CrawlingService.class);
-    @Autowired
-    private PageReaderService pageReader;
+    private final PageReaderService pageReader;
 
-    @Autowired
-    private InputQueue input;
+    private final InputQueue input;
+
+    private final CachingService cache;
+
+    public CrawlingService(@Autowired PageReaderService pageReader, @Autowired InputQueue input, @Autowired CachingService cache) {
+        this.pageReader = pageReader;
+        this.input = input;
+        this.cache = cache;
+    }
 
 
+    public void processPage(int levels) {
 
-    public void processPage(int levels, CachingService cache) {
 
-        PageNode page = input.poll();
-        while (!page.isPoisoned()) {
-            pageReader.readPage(page.getUrl());
-            while (pageReader.hasNext()) {
-                PageNode child = page.addLink(pageReader.readLink());
-                if(child.getLevel() < levels) {
-                    input.offer(child);
+        while (true) {
+            try {
+                PageNode page = this.input.take();
+                LOG.error("{}", page);
+                if (page.isPoisoned()) {
+                    break;
                 }
-            }
-            if(input.size() == 0) {
-                input.offer(PageNode.poisonedPill());
+                cache.addLink(page);
+                pageReader.readPage(page.getUrl());
+                while (pageReader.hasNext()) {
+                    PageNode child = new PageNode(pageReader.readLink(), page.getUrl(), page.getLevel() + 1);
+                    if (child.getLevel() <= levels) {
+                        input.offer(child);
+                    }
+                }
+                if (input.size() == 0) {
+                    input.offer(PageNode.poisonedPill());
+                }
+            }catch (InterruptedException e) {
+                LOG.warn("Interrupted: {}" , e);
             }
         }
 
-        for(int i = 0; i < levels; i++) {
-
-        }
-
-        for (PageNode page : root.getChildren()) {
-            pageReader.readPage(page.getUrl());
-            while (pageReader.hasNext()) {
-                page.addLink(pageReader.readLink());
-            }
-        }
     }
 }

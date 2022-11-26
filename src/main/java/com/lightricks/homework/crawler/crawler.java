@@ -1,7 +1,7 @@
 package com.lightricks.homework.crawler;
 
 import com.lightricks.homework.crawler.model.PageNode;
-import com.lightricks.homework.crawler.service.CachingService;
+import com.lightricks.homework.crawler.queue.InputQueue;
 import com.lightricks.homework.crawler.service.CrawlingService;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -22,13 +22,13 @@ public class crawler {
 			System.err.println("Second argument must be integer");
 			System.exit(0);
 		}
-		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext("com.lightricks.homework.crawler.service");
+		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext("com.lightricks.homework.crawler");
 		CrawlingService service = context.getBean(CrawlingService.class);
-		CachingService cache = context.getBean(CachingService.class);
+		InputQueue inputQue = context.getBean(InputQueue.class);
 
-		PageNode page = new PageNode(root, 0);
+		inputQue.offer(new PageNode(root, 0));
 
-		service.processPage(page, levels, cache);
+		service.processPage(levels);
 
 	}
 

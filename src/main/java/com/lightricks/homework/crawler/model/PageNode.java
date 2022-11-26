@@ -2,38 +2,28 @@ package com.lightricks.homework.crawler.model;
 
 import org.springframework.lang.NonNull;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 public class PageNode {
 
     private final String url;
+    private final String parentUrl;
 
     private boolean poisoned = false;
 
     private final int level;
-    private final Set<PageNode> children = new HashSet<>();
+
+
+    public PageNode(@NonNull String url, String parentUrl, int level) {
+        this.url = url;
+        this.level = level;
+        this.parentUrl = parentUrl;
+    }
 
     public PageNode(@NonNull String url, int level) {
         this.url = url;
         this.level = level;
+        this.parentUrl = null;
     }
 
-    /**
-     * Creates a new child PageNode with the next level
-     *
-     * @param link Appearing on the current page
-     * @return child node if it does not exist yet, null otherwise
-     */
-    public PageNode addLink(@NonNull String link) {
-        PageNode child = new PageNode(link, level + 1);
-        return children.add(child) ? child : null;
-    }
-
-    public Collection<PageNode> getChildren() {
-        return children;
-    }
 
     public String getUrl() {
         return url;
@@ -62,10 +52,21 @@ public class PageNode {
         return url.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "PageNode{" +
+                "url='" + url + '\'' +
+                ", parentUrl='" + parentUrl + '\'' +
+                ", poisoned=" + poisoned +
+                ", level=" + level +
+                '}';
+    }
+
     private PageNode() {
         this.url = null;
         this.level = -1;
         poisoned = true;
+        parentUrl = null;
     }
 
     /**

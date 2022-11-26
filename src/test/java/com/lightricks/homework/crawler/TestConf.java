@@ -1,5 +1,6 @@
 package com.lightricks.homework.crawler;
 
+import com.lightricks.homework.crawler.service.CachingService;
 import com.lightricks.homework.crawler.service.PageReaderService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +12,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 @Configuration
-@ComponentScan({"com.lightricks.homework.crawler.service"})
+@ComponentScan({"com.lightricks.homework.crawler"})
 public class TestConf {
 
 
@@ -48,6 +49,13 @@ public class TestConf {
                 return !children.isEmpty();
             }
         };
+    }
+
+    @Bean
+    @Profile("simple")
+    @Primary
+    public CachingService getCachingService() {
+        return new CachingService();
     }
 
     @Bean

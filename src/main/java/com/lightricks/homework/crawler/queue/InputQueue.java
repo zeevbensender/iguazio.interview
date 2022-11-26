@@ -3,19 +3,19 @@ package com.lightricks.homework.crawler.queue;
 import com.lightricks.homework.crawler.model.PageNode;
 import org.springframework.stereotype.Service;
 
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 @Service
 public class InputQueue {
-    private final Queue<PageNode> que = new LinkedBlockingQueue <>(1000);
+    private final BlockingQueue<PageNode> que = new LinkedBlockingDeque<>(1000);
 
     public boolean offer(PageNode pageNode) {
         return que.offer(pageNode);
     }
 
-    public PageNode poll() {
-        return que.poll();
+    public PageNode take() throws InterruptedException {
+        return que.take();
     }
 
     public int size() {
