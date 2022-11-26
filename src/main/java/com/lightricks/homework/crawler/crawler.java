@@ -1,12 +1,10 @@
 package com.lightricks.homework.crawler;
 
+import com.lightricks.homework.crawler.model.PageNode;
 import com.lightricks.homework.crawler.service.CachingService;
 import com.lightricks.homework.crawler.service.CrawlingService;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.ArrayDeque;
-import java.util.Queue;
 
 public class crawler {
 
@@ -27,12 +25,11 @@ public class crawler {
 		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext("com.lightricks.homework.crawler.service");
 		CrawlingService service = context.getBean(CrawlingService.class);
 		CachingService cache = context.getBean(CachingService.class);
-		Queue<String> nextLevelLinks = new ArrayDeque<>();
-		nextLevelLinks.offer(root);
 
-		for(int i = 0; i < levels; i++) {
-			nextLevelLinks = service.processPage(nextLevelLinks, cache);
-		}
+		PageNode page = new PageNode(root, 0);
+
+		service.processPage(page, levels, cache);
+
 	}
 
 }

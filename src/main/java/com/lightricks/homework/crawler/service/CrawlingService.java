@@ -1,14 +1,12 @@
 package com.lightricks.homework.crawler.service;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import com.lightricks.homework.crawler.model.PageNode;
+import com.lightricks.homework.crawler.queue.InputQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
@@ -16,19 +14,38 @@ import java.util.Queue;
 public class CrawlingService {
     private static final Logger LOG = LoggerFactory.getLogger(CrawlingService.class);
     @Autowired
-    PageReaderService pageReader;
+    private PageReaderService pageReader;
+
+    @Autowired
+    private InputQueue input;
 
 
 
-    public Queue<String> processPage(Queue<String> links, CachingService cache) {
-        Queue<String> children = new ArrayDeque<>();
-        while (! links.isEmpty()) {
-            String link = links.poll();
-            pageReader.readPage(link);
+    public void processPage(int levels, CachingService cache) {
+
+        PageNode page = input.poll();
+        while (!page.isPoisoned()) {
+            pageReader.readPage(page.getUrl());
             while (pageReader.hasNext()) {
-                children.offer(pageReader.readLink());
+                PageNode child = page.addLink(pageReader.readLink());
+                if(child.getLevel() < levels) {
+                    input.offer(child);
+                }
+            }
+            if(input.size() == 0) {
+                input.offer(PageNode.poisonedPill());
             }
         }
-        return children;
+
+        for(int i = 0; i < levels; i++) {
+
+        }
+
+        for (PageNode page : root.getChildren()) {
+            pageReader.readPage(page.getUrl());
+            while (pageReader.hasNext()) {
+                page.addLink(pageReader.readLink());
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.lightricks.homework.crawler.service;
 
 import com.lightricks.homework.crawler.TestConf;
+import com.lightricks.homework.crawler.model.PageNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ class CrawlingServiceTest {
     @Test
     public void testProcessPage() {
         Queue<String> nextLevelLinks = new ArrayDeque<>(List.of("zyama"));
-        nextLevelLinks = crawlingService.processPage(nextLevelLinks, cachingService);
+        crawlingService.processPage(1, cachingService);
         assertEquals(2, nextLevelLinks.size());
     }
 }
