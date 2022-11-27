@@ -6,11 +6,13 @@ import com.lightricks.homework.crawler.model.PageNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig(classes = TestConf.class)
+@ActiveProfiles({"consolePrinter" })
 class CachingServiceTest {
 
     @Autowired

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class ScoreFilePrinter implements AggregatorPlugin {
     private static final Logger LOG = LoggerFactory.getLogger(ScoreFilePrinter.class);
 
-    @Value("${outputFile}")
+    @Value("${f}")
     private String outputFile;
 
     public void processPage(PageNode node) {
