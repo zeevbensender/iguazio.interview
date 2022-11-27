@@ -7,18 +7,26 @@ public class PageMessage {
     private final String parentUrl;
     private final int level;
 
+    private final boolean lastLinkOnPage;
+
     private boolean processChildren = true;
 
-    public PageMessage(@NonNull String url, String parentUrl, int level) {
+    public PageMessage(String url, String parentUrl, int level, boolean lastLinkOnPage) {
         this.url = url;
         this.level = level;
         this.parentUrl = parentUrl;
+        this.lastLinkOnPage = lastLinkOnPage;
     }
 
     public PageMessage(@NonNull String url, int level) {
         this.url = url;
         this.level = level;
         this.parentUrl = null;
+        this.lastLinkOnPage = false;
+    }
+
+    public String getParentUrl() {
+        return parentUrl;
     }
 
     public String getUrl() {
@@ -29,12 +37,16 @@ public class PageMessage {
         return level;
     }
 
+    public boolean isLastLinkOnPage() {
+        return lastLinkOnPage;
+    }
+
     public boolean isProcessChildren() {
         return processChildren;
     }
 
-    public void setProcessChildren(boolean processChildren) {
-        this.processChildren = processChildren;
+    public void doNotProcessChildren() {
+        this.processChildren = false;
     }
 
     @Override

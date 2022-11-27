@@ -29,7 +29,7 @@ public class PageProcessor {
             try {
                 PageMessage page = this.input.poll();
                 if(page.getLevel() == maxLevel) {
-                    page.setProcessChildren(false);
+                    page.doNotProcessChildren();
                 }
                 if (!cache.contains(page.getUrl())) {
                     for (PageProcessingPlugin plugin : plugins) {

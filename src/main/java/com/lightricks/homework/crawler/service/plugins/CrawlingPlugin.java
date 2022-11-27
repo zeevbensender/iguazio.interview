@@ -23,9 +23,12 @@ public class CrawlingPlugin implements PageProcessingPlugin {
         }
         pageReader.readPage(pageMessage.getUrl());
         while (pageReader.hasNext()) {
-                PageMessage child = new PageMessage(pageReader.readLink(),
+            String link = pageReader.readLink();
+            boolean lastOnPage = !pageReader.hasNext();
+                PageMessage child = new PageMessage(link,
                         pageMessage.getUrl(),
-                        pageMessage.getLevel() + 1);
+                        pageMessage.getLevel() + 1,
+                        lastOnPage);
             input.offer(child);
         }
     }

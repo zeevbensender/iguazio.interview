@@ -2,6 +2,7 @@ package com.lightricks.homework.crawler;
 
 import com.lightricks.homework.crawler.service.CachingService;
 import com.lightricks.homework.crawler.service.PageReader;
+import com.lightricks.homework.crawler.service.ScoreProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -56,7 +57,7 @@ public class TestConf {
     @Profile("simple")
     @Primary
     public CachingService getCachingService() {
-        return new CachingService();
+        return new CachingService(new ScoreProcessor());
     }
 
     @Bean
