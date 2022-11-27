@@ -2,39 +2,39 @@ package com.lightricks.homework.crawler.model;
 
 import org.springframework.lang.NonNull;
 
-public class PageNode {
-
+public class PageMessage {
     private final String url;
     private final String parentUrl;
-
-    private boolean poisoned = false;
-
     private final int level;
 
+    private boolean processChildren = true;
 
-    public PageNode(@NonNull String url, String parentUrl, int level) {
+    public PageMessage(@NonNull String url, String parentUrl, int level) {
         this.url = url;
         this.level = level;
         this.parentUrl = parentUrl;
     }
 
-    public PageNode(@NonNull String url, int level) {
+    public PageMessage(@NonNull String url, int level) {
         this.url = url;
         this.level = level;
         this.parentUrl = null;
     }
 
-
     public String getUrl() {
         return url;
     }
 
-    public boolean isPoisoned() {
-        return poisoned;
-    }
-
     public int getLevel() {
         return level;
+    }
+
+    public boolean isProcessChildren() {
+        return processChildren;
+    }
+
+    public void setProcessChildren(boolean processChildren) {
+        this.processChildren = processChildren;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PageNode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PageNode pageNode = (PageNode) o;
+        PageMessage pageNode = (PageMessage) o;
 
         return url.equals(pageNode.url);
     }
@@ -57,23 +57,7 @@ public class PageNode {
         return "PageNode{" +
                 "url='" + url + '\'' +
                 ", parentUrl='" + parentUrl + '\'' +
-                ", poisoned=" + poisoned +
                 ", level=" + level +
                 '}';
-    }
-
-    private PageNode() {
-        this.url = null;
-        this.level = -1;
-        poisoned = true;
-        parentUrl = null;
-    }
-
-    /**
-     *
-     * @return poisoned PageNode to kill consumer
-     */
-    public static PageNode poisonedPill(){
-        return new PageNode();
     }
 }

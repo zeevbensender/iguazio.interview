@@ -1,7 +1,7 @@
 package com.lightricks.homework.crawler;
 
 import com.lightricks.homework.crawler.service.CachingService;
-import com.lightricks.homework.crawler.service.PageReaderService;
+import com.lightricks.homework.crawler.service.PageReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +21,8 @@ public class TestConf {
     @Bean
     @Profile("simple")
     @Primary
-    public PageReaderService pageReaderService() {
-        return new PageReaderService() {
+    public PageReader pageReaderService() {
+        return new PageReader() {
             Queue<String> children;
 /*
             Queue<Queue<String>> pages = new ArrayDeque<>(
@@ -37,6 +37,7 @@ public class TestConf {
             @Override
             public void readPage(String url) {
                 children = mockedLinks.getChildren();
+                System.out.println("!!!!!!!!!!!!! CALLED for " + url);
             }
 
             @Override

@@ -1,6 +1,8 @@
 package com.lightricks.homework.crawler.service;
 
-import com.lightricks.homework.crawler.model.PageNode;
+import com.lightricks.homework.crawler.model.PageMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +13,19 @@ import java.util.Map;
 @Service
 @Scope("prototype")
 public class CachingService {
-    private Map<String, PageNode> map = new HashMap<>();
+
+    private static final Logger LOG = LoggerFactory.getLogger(CachingService.class);
+    private Map<String, PageMessage> map = new HashMap<>();
 
     public int size() {
         return map.size();
     }
 
-    public PageNode get(Object key) {
+    public PageMessage get(Object key) {
         return map.get(key);
     }
 
-    public Collection<PageNode> values() {
+    public Collection<PageMessage> values() {
         return map.values();
     }
 
@@ -29,10 +33,16 @@ public class CachingService {
         return map.containsKey(key);
     }
 
+    public void clear() {
+        map.clear();
+    }
 
 
-    public void addLink(PageNode page) {
+
+    public void addLink(PageMessage page) {
+        LOG.info("{}", page);
         map.put(page.getUrl(), page);
+
     }
 
 }
