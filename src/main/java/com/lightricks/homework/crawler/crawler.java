@@ -4,12 +4,15 @@ import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.queue.InputQueue;
 import com.lightricks.homework.crawler.service.PageProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.StandardEnvironment;
 
 import java.util.Scanner;
 
@@ -43,7 +46,6 @@ public class crawler implements CommandLineRunner {
 	private InputQueue inputQue;
 	@Autowired
 	private PageProcessor service;
-
 	public static void main(String[] args) {
 
 		if(args.length < 2) {
@@ -65,10 +67,18 @@ public class crawler implements CommandLineRunner {
 			if(!userResponse.equals("y")) {
 				System.exit(0);
 			}
-			System.out.println("Good luck buddy!");
+			System.out.println("Good luck buddy and be patient! It's gonna take time");
 		}
-
-		SpringApplication.run(crawler.class, args);
+		SpringApplication app = new SpringApplication(crawler.class);
+		ConfigurableEnvironment environment = new StandardEnvironment();
+		if(args.length == 3) {
+			environment.setActiveProfiles("filePrinter");
+		} else {
+			environment.setActiveProfiles("consolePrinter");
+		}
+		app.setEnvironment(environment);
+		app.run(args);
+//		SpringApplication.run(crawler.class, args);
 
 	}
 
@@ -80,6 +90,7 @@ public class crawler implements CommandLineRunner {
 		if(args.length == 3) {
 			output = args[2];
 		}
+
 		inputQue.offer(new PageMessage(root, 0));
 		service.processPage(Integer.parseInt(args[1]));
 	}
