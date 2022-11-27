@@ -2,6 +2,8 @@ package com.lightricks.homework.crawler.service;
 
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.model.PageNode;
+import com.lightricks.homework.crawler.service.plugins.AggregatorPlugin;
+import com.lightricks.homework.crawler.service.plugins.ScorePlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,10 +23,11 @@ public class CachingService {
     private Map<String, PageNode> map = new HashMap<>();
 
     private PageNode root = null;
-    private final ScoreProcessor scoreProcessor;
+    @Autowired
+    protected List<AggregatorPlugin> plugins;
 
-    public CachingService(@Autowired ScoreProcessor scoreProcessor) {
-        this.scoreProcessor = scoreProcessor;
+    public CachingService() {
+
     }
 
     public int size() {
@@ -67,7 +71,8 @@ public class CachingService {
         }
         map.put(page.getUrl(), node);
         if(page.isLastLinkOnPage()) {
-            scoreProcessor.processPage(map.get(page.getParentUrl()));
+            for(AggregatorPlugin plugin : plugins)
+            plugin.processPage(map.get(page.getParentUrl()));
         }
     }
 }

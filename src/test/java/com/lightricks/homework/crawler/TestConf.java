@@ -2,7 +2,7 @@ package com.lightricks.homework.crawler;
 
 import com.lightricks.homework.crawler.service.CachingService;
 import com.lightricks.homework.crawler.service.PageReader;
-import com.lightricks.homework.crawler.service.ScoreProcessor;
+import com.lightricks.homework.crawler.service.plugins.ScorePlugin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Queue;
 
 @Configuration
@@ -25,16 +26,6 @@ public class TestConf {
     public PageReader pageReaderService() {
         return new PageReader() {
             Queue<String> children;
-/*
-            Queue<Queue<String>> pages = new ArrayDeque<>(
-                    List.of(
-                            new ArrayDeque<>(List.of("abc", "dfs")),
-                            new ArrayDeque<>(List.of("abg", "doloy", "putina", "svoboda")),
-                            new ArrayDeque<>(List.of("ukraine", "am", "hai"))
-                    )
-            );
-*/
-
             @Override
             public void readPage(String url) {
                 children = mockedLinks.getChildren();
@@ -57,7 +48,11 @@ public class TestConf {
     @Profile("simple")
     @Primary
     public CachingService getCachingService() {
-        return new CachingService(new ScoreProcessor());
+        return new CachingService(){
+            {
+                plugins = List.of( new ScorePlugin());
+            }
+        };
     }
 
     @Bean

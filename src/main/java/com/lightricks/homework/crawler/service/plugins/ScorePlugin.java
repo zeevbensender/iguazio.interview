@@ -1,10 +1,10 @@
-package com.lightricks.homework.crawler.service;
+package com.lightricks.homework.crawler.service.plugins;
 
 import com.lightricks.homework.crawler.model.PageNode;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ScoreProcessor {
+public class ScorePlugin implements AggregatorPlugin {
     public void processPage(PageNode pageUrl) {
     }
 }
