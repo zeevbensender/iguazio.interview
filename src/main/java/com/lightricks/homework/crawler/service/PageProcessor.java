@@ -3,6 +3,7 @@ package com.lightricks.homework.crawler.service;
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.queue.InputQueue;
 import com.lightricks.homework.crawler.service.plugins.PageProcessingPlugin;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,11 @@ public class PageProcessor {
     public PageProcessor(@Autowired InputQueue inputQueue, @Autowired CachingService cache) {
         this.input = inputQueue;
         this.cache = cache;
+    }
+
+    @PostConstruct
+    public void init() {
+        this.processPage(1);
     }
 
     public void processPage(int maxLevel) {

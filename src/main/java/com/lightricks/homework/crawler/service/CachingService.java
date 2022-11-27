@@ -3,7 +3,6 @@ package com.lightricks.homework.crawler.service;
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.model.PageNode;
 import com.lightricks.homework.crawler.service.plugins.AggregatorPlugin;
-import com.lightricks.homework.crawler.service.plugins.ScorePlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +51,7 @@ public class CachingService {
 
 
     public void addLink(PageMessage page) {
-        LOG.info("{}", page);
-        PageNode node = new PageNode(page.getUrl(), page.getLevel());
+        PageNode node = PageNode.create(page.getUrl(), page.getLevel());
         if (map.size() == 0) {
             if (page.getParentUrl() != null) {
                 throw new IllegalStateException("Root page must have no parent");
@@ -64,15 +62,15 @@ public class CachingService {
                 throw new IllegalStateException("Parent must not be null");
             }
             PageNode parent = map.get(page.getParentUrl());
-            if(parent == null) {
+            if (parent == null) {
                 throw new IllegalStateException("Parent is missing: " + page.getParentUrl());
             }
             parent.addChild(node);
         }
         map.put(page.getUrl(), node);
-        if(page.isLastLinkOnPage()) {
-            for(AggregatorPlugin plugin : plugins)
-            plugin.processPage(map.get(page.getParentUrl()));
+        if (page.isLastLinkOnPage()) {
+            for (AggregatorPlugin plugin : plugins)
+                plugin.processPage(map.get(page.getParentUrl()));
         }
     }
 }

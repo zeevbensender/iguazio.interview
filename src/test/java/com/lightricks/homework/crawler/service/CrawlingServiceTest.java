@@ -34,11 +34,11 @@ class CrawlingServiceTest {
         input.clear();
         mockedLinks.links.clear();
         cache.clear();
-        input.offer(new PageMessage("abc", 0)); //root
-        mockedLinks.addChildren(new ArrayDeque<>(List.of("abcz", "dfs"))); //1st level children; parent: abc
-        mockedLinks.addChildren(new ArrayDeque<>(List.of("second", "level"))); //2nd level children; parent: abcz
-        mockedLinks.addChildren(new ArrayDeque<>(List.of("another.second", "level" /*duplicate*/, "second.child"))); //2nd level children; parent: level
-        mockedLinks.addChildren(new ArrayDeque<>(List.of("secondbee", "levelqqq", "oops.child"))); //2nd level children
+        input.offer(new PageMessage("http://abc.com", 0)); //root
+        mockedLinks.addChildren(new ArrayDeque<>(List.of("http://abcz.com", "http://dfs.com"))); //1st level children; parent: abc
+        mockedLinks.addChildren(new ArrayDeque<>(List.of("http://second.com", "http://level.com"))); //2nd level children; parent: abcz
+        mockedLinks.addChildren(new ArrayDeque<>(List.of("http://another.second.com", "http://level.com" /*duplicate*/, "http://second.child.com"))); //2nd level children; parent: level
+        mockedLinks.addChildren(new ArrayDeque<>(List.of("http://secondbee.com", "http://levelqqq.com", "http://oops.child.com"))); //2nd level children
         mockedLinks.addChildren(new ArrayDeque<>(List.of("secondbee", "levelqqq", "oops.child"))); //2nd level children
         mockedLinks.addChildren(new ArrayDeque<>(List.of("secondbee", "levelqqq", "oops.child"))); //2nd level children
         mockedLinks.addChildren(new ArrayDeque<>(List.of("secondbee", "levelqqq", "oops.child"))); //2nd level children
