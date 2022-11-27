@@ -45,25 +45,11 @@ public class crawler implements CommandLineRunner {
 	private PageProcessor service;
 
 	public static void main(String[] args) {
-//		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext("com.lightricks.homework.crawler");
 
-//		PageProcessor service = context.getBean(PageProcessor.class);
-//		InputQueue inputQue = context.getBean(InputQueue.class);
-
-//		inputQue.offer(new PageMessage(root, 0));
-		SpringApplication.run(crawler.class, args);
-//		service.processPage(levels);
-
-	}
-
-
-	@Override
-	public void run(String... args) throws Exception {
 		if(args.length < 2) {
-			System.err.println("Usage: java -jar <path to jar file>/crawler-0.0.1-SNAPSHOT.jar <URL> level [output file]");
+			System.err.println("Usage: java -jar <path to jar file>/crawler-0.0.1-SNAPSHOT.jar <URL> <level> [output file]");
 			System.exit(0);
 		}
-		String root = args[0];
 		int levels = -1;
 		try {
 			levels = Integer.parseInt(args[1]);
@@ -81,11 +67,19 @@ public class crawler implements CommandLineRunner {
 			}
 			System.out.println("Good luck buddy!");
 		}
+
+		SpringApplication.run(crawler.class, args);
+
+	}
+
+
+	@Override
+	public void run(String... args) throws Exception {
+		String root = args[0];
 		String output = null;
 		if(args.length == 3) {
 			output = args[2];
 		}
-
 		inputQue.offer(new PageMessage(root, 0));
 		service.processPage(Integer.parseInt(args[1]));
 	}
