@@ -2,7 +2,7 @@ package com.lightricks.homework.crawler;
 
 import com.lightricks.homework.crawler.service.AppContext;
 import com.lightricks.homework.crawler.service.CachingService;
-import com.lightricks.homework.crawler.service.PageReader;
+import com.lightricks.homework.crawler.service.readers.PageReader;
 import com.lightricks.homework.crawler.service.plugins.ScoreConsolePrinter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

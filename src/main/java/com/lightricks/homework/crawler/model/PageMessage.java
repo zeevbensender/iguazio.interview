@@ -1,5 +1,9 @@
 package com.lightricks.homework.crawler.model;
 
+/**
+ * Single link (root or a link from the parent page) travels through ({@link com.lightricks.homework.crawler.queue.InputQueue} )
+ * From {@link com.lightricks.homework.crawler.service.plugins.CrawlingPlugin} to {@link com.lightricks.homework.crawler.service.PageProcessor}
+ */
 public class PageMessage {
     private final String url;
     private final String parentUrl;
@@ -65,6 +69,7 @@ public class PageMessage {
                 ", level=" + level +
                 '}';
     }
+
     public static PageMessage poisonedPill() {
         return new PageMessage(null, null, -1);
     }

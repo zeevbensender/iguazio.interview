@@ -2,6 +2,9 @@ package com.lightricks.homework.crawler.service;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * Contains global properties
+ */
 @Service
 public class AppContext {
     protected int maxLevel = -1;

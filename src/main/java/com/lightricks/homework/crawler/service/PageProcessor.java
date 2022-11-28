@@ -31,16 +31,18 @@ public class PageProcessor {
     public void processPage() {
         while (input.size() != 0) {
             PageMessage page = this.input.poll();
+            //Do not process children if max level reached
             if (page.getLevel() > appContext.getMaxLevel()) {
                 page.setAsLeaf();
             }
+            //Process the page only if wasn't processed before
             if (!cache.contains(page.getUrl())) {
                 for (PageProcessingPlugin plugin : plugins) {
                     plugin.process(page);
                 }
             }
         }
-        //Signal last page
+        //Signal last page if no more pages in the queue
         for (PageProcessingPlugin plugin : plugins) {
             plugin.process(PageMessage.poisonedPill());
         }

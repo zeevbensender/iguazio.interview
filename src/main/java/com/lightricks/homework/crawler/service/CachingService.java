@@ -13,19 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The cache
+ */
 @Service
 public class CachingService {
-
     private static final Logger LOG = LoggerFactory.getLogger(CachingService.class);
     private Map<String, PageNode> map = new HashMap<>();
-
     private PageNode root = null;
     @Autowired
     protected List<AggregatorPlugin> plugins;
-
-    public CachingService() {
-
-    }
 
     public int size() {
         return map.size();
@@ -47,9 +44,8 @@ public class CachingService {
         map.clear();
     }
 
-
     public void cacheLink(PageMessage pageMessage) {
-        if(pageMessage.isPoisoned()) {
+        if (pageMessage.isPoisoned()) {
             for (AggregatorPlugin plugin : plugins) {
                 plugin.aggregate(map);
             }

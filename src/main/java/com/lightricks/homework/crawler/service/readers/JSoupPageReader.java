@@ -1,31 +1,27 @@
-package com.lightricks.homework.crawler.service;
+package com.lightricks.homework.crawler.service.readers;
 
 import com.lightricks.homework.crawler.utils.UrlUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**
  * This class will be in use only if the application runs with "jsoup" profile
- * By default {@link CustomPageReader} is used
+ * By default {@link DefaultPageReader} is used
  */
 @Service
 @Profile("jsoup")
 @Primary
-public class JSoupPageReader implements PageReader {
+public class JSoupPageReader extends AbstractPageReader {
     private Queue<String> children;
     private static final Logger LOG = LoggerFactory.getLogger(JSoupPageReader.class);
 
@@ -54,29 +50,7 @@ public class JSoupPageReader implements PageReader {
         }
         for (Element element : doc.select("a[href]")) {
             String child = element.absUrl("href");
-            if (!UrlUtils.isDomain(child) ||
-                    child.endsWith(".pdf") ||
-                    child.endsWith(".PDF") ||
-                    child.endsWith(".jpg") ||
-                    child.endsWith(".JPG") ||
-                    child.endsWith(".gif") ||
-                    child.endsWith(".GIF") ||
-                    child.endsWith(".xml") ||
-                    child.endsWith(".XML")  //content types other than html will be filtered out later.
-                // this condition is to avoid annoying error logs
-            ) {
-                continue;
-            }
-            children.offer(child);
+            offerLink(child);
         }
-    }
-
-    public String readLink() {
-        return children.poll();
-    }
-
-    @Override
-    public boolean hasNext() {
-        return !children.isEmpty();
     }
 }

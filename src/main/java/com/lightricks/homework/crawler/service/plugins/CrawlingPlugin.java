@@ -2,10 +2,14 @@ package com.lightricks.homework.crawler.service.plugins;
 
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.queue.InputQueue;
-import com.lightricks.homework.crawler.service.PageReader;
+import com.lightricks.homework.crawler.service.readers.PageReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Reads links from {@link PageReader} and sends them to {@link com.lightricks.homework.crawler.service.PageProcessor }
+ * over {@link InputQueue}
+ */
 @Service
 public class CrawlingPlugin implements PageProcessingPlugin {
     private final PageReader pageReader;
@@ -18,11 +22,15 @@ public class CrawlingPlugin implements PageProcessingPlugin {
 
     @Override
     public void process(PageMessage pageMessage) {
+        //do nothing if it's the last input signal message or if it's a deepest level message
         if (pageMessage.isLeaf() || pageMessage.isPoisoned()) {
             return;
         }
+        //read links on page
         pageReader.readPage(pageMessage.getUrl());
+        //get page links one by one
         while (pageReader.hasNext()) {
+            //send the links to PageProcessor
             String link = pageReader.readLink();
             PageMessage child = new PageMessage(link,
                     pageMessage.getUrl(),
@@ -31,6 +39,10 @@ public class CrawlingPlugin implements PageProcessingPlugin {
         }
     }
 
+    /**
+     *
+     * @return running order
+     */
     @Override
     public int getPriority() {
         return 2;

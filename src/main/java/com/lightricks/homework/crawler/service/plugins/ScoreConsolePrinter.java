@@ -6,12 +6,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-
+/**
+ * Prints TSV formatted data to the standard output
+ */
 @Service
 @Profile("consolePrinter")
 @Primary
 public class ScoreConsolePrinter extends AbstractScorePrinter {
-
     public ScoreConsolePrinter(@Autowired AppContext context) {
         super(context);
     }
@@ -20,5 +21,4 @@ public class ScoreConsolePrinter extends AbstractScorePrinter {
     public void print() {
         System.out.println(output);
     }
-
 }

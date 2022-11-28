@@ -1,4 +1,4 @@
-package com.lightricks.homework.crawler.service;
+package com.lightricks.homework.crawler.service.readers;
 
 public interface PageReader {
     void readPage(String url);
@@ -6,4 +6,5 @@ public interface PageReader {
     String readLink ();
 
     boolean hasNext();
+
 }

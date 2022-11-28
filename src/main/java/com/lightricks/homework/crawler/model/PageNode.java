@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
+/**
+ * Cache node. Each node represents a single link.
+ * Cached within {@link com.lightricks.homework.crawler.service.CachingService}
+ */
 public class PageNode {
     private final String url;
     private final int level;
@@ -51,7 +55,6 @@ public class PageNode {
     }
 
     public static PageNode create(String url, int level) {
-
         try {
             return new PageNode(url, level, UrlUtils.getDomain(url));
         } catch (MalformedURLException e) {

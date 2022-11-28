@@ -4,7 +4,6 @@ import com.lightricks.homework.crawler.service.AppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,9 @@ import org.springframework.stereotype.Service;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
+/**
+ * Prints data to the configured TSV file
+ */
 @Service
 @Profile("filePrinter")
 @Primary
