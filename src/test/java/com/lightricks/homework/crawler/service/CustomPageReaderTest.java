@@ -1,6 +1,6 @@
 package com.lightricks.homework.crawler.service;
 
-import com.lightricks.homework.crawler.service.readers.DefaultPageReader;
+import com.lightricks.homework.crawler.service.reader.DefaultPageReader;
 import org.junit.jupiter.api.Test;
 
 class CustomPageReaderTest {

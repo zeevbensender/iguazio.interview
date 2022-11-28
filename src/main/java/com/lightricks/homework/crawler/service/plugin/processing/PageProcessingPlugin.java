@@ -1,4 +1,4 @@
-package com.lightricks.homework.crawler.service.plugins;
+package com.lightricks.homework.crawler.service.plugin.processing;
 
 import com.lightricks.homework.crawler.model.PageMessage;
 

@@ -1,4 +1,4 @@
-package com.lightricks.homework.crawler.service.readers;
+package com.lightricks.homework.crawler.service.reader;
 
 import com.lightricks.homework.crawler.utils.UrlUtils;
 import org.slf4j.Logger;
@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayDeque;
-import java.util.Queue;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,6 +1,5 @@
-package com.lightricks.homework.crawler.service.readers;
+package com.lightricks.homework.crawler.service.reader;
 
-import com.lightricks.homework.crawler.utils.UrlUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

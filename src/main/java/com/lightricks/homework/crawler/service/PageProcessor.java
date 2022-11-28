@@ -2,8 +2,7 @@ package com.lightricks.homework.crawler.service;
 
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.queue.InputQueue;
-import com.lightricks.homework.crawler.service.plugins.PageProcessingPlugin;
-import jakarta.annotation.PostConstruct;
+import com.lightricks.homework.crawler.service.plugin.processing.PageProcessingPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

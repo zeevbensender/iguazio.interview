@@ -1,13 +1,14 @@
 package com.lightricks.homework.crawler.queue;
 
 import com.lightricks.homework.crawler.model.PageMessage;
+import com.lightricks.homework.crawler.service.plugin.processing.CrawlingPlugin;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**
- * Transfers messages from  ({@link com.lightricks.homework.crawler.service.plugins.CrawlingPlugin})
+ * Transfers messages from  ({@link CrawlingPlugin})
  * to page processor ({@link com.lightricks.homework.crawler.service.PageProcessor})
  * Max capacity is 1000 messages.
  */

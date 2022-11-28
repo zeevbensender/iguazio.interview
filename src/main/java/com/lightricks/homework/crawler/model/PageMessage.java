@@ -1,8 +1,10 @@
 package com.lightricks.homework.crawler.model;
 
+import com.lightricks.homework.crawler.service.plugin.processing.CrawlingPlugin;
+
 /**
  * Single link (root or a link from the parent page) travels through ({@link com.lightricks.homework.crawler.queue.InputQueue} )
- * From {@link com.lightricks.homework.crawler.service.plugins.CrawlingPlugin} to {@link com.lightricks.homework.crawler.service.PageProcessor}
+ * From {@link CrawlingPlugin} to {@link com.lightricks.homework.crawler.service.PageProcessor}
  */
 public class PageMessage {
     private final String url;

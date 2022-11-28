@@ -1,4 +1,4 @@
-package com.lightricks.homework.crawler.service.plugins;
+package com.lightricks.homework.crawler.service.plugin.processing;
 
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.service.CachingService;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * cache ({@link CachingService})
  */
 @Service
-public class CachingPlugin implements PageProcessingPlugin{
+public class CachingPlugin implements PageProcessingPlugin {
     private final CachingService cache;
 
     public CachingPlugin(@Autowired CachingService cache) {

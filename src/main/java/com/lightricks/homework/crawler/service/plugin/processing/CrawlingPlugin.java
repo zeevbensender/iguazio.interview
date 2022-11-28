@@ -1,8 +1,8 @@
-package com.lightricks.homework.crawler.service.plugins;
+package com.lightricks.homework.crawler.service.plugin.processing;
 
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.queue.InputQueue;
-import com.lightricks.homework.crawler.service.readers.PageReader;
+import com.lightricks.homework.crawler.service.reader.PageReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

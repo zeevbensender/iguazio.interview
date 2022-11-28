@@ -2,7 +2,7 @@ package com.lightricks.homework.crawler.service;
 
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.model.PageNode;
-import com.lightricks.homework.crawler.service.plugins.AggregatorPlugin;
+import com.lightricks.homework.crawler.service.plugin.aggregation.AggregatorPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
