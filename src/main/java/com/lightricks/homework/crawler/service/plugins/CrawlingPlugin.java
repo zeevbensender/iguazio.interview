@@ -18,7 +18,7 @@ public class CrawlingPlugin implements PageProcessingPlugin {
 
     @Override
     public void process(PageMessage pageMessage) {
-        if(!pageMessage.isProcessChildren()) {
+        if(pageMessage.isLeaf() || pageMessage.isPoisoned()) {
             return;
         }
         pageReader.readPage(pageMessage.getUrl());

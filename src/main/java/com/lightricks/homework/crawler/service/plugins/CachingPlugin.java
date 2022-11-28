@@ -16,7 +16,7 @@ public class CachingPlugin implements PageProcessingPlugin{
 
     @Override
     public void process(PageMessage pageMessage) {
-        cache.addLink(pageMessage);
+        cache.cacheLink(pageMessage);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class InputQueue {
         return que.offer(pageNode);
     }
 
-    public PageMessage poll() throws InterruptedException {
+    public PageMessage poll() {
         return que.poll();
     }
 

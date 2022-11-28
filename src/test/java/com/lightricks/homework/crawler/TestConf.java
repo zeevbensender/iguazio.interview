@@ -2,7 +2,7 @@ package com.lightricks.homework.crawler;
 
 import com.lightricks.homework.crawler.service.CachingService;
 import com.lightricks.homework.crawler.service.PageReader;
-import com.lightricks.homework.crawler.service.plugins.ScorePlugin;
+import com.lightricks.homework.crawler.service.plugins.ScoreConsolePrinter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +50,7 @@ public class TestConf {
     public CachingService getCachingService() {
         return new CachingService(){
             {
-                plugins = List.of( new ScorePlugin());
+                plugins = List.of( new ScoreConsolePrinter());
             }
         };
     }

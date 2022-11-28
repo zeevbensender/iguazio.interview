@@ -1,7 +1,5 @@
 package com.lightricks.homework.crawler.model;
 
-import org.springframework.lang.NonNull;
-
 public class PageMessage {
     private final String url;
     private final String parentUrl;
@@ -9,7 +7,7 @@ public class PageMessage {
 
     private final boolean lastLinkOnPage;
 
-    private boolean processChildren = true;
+    private boolean leaf = false;
 
     public PageMessage(String url, String parentUrl, int level, boolean lastLinkOnPage) {
         this.url = url;
@@ -18,7 +16,7 @@ public class PageMessage {
         this.lastLinkOnPage = lastLinkOnPage;
     }
 
-    public PageMessage(@NonNull String url, int level) {
+    public PageMessage(String url, int level) {
         this.url = url;
         this.level = level;
         this.parentUrl = null;
@@ -41,12 +39,16 @@ public class PageMessage {
         return lastLinkOnPage;
     }
 
-    public boolean isProcessChildren() {
-        return processChildren;
+    public boolean isLeaf() {
+        return leaf;
     }
 
-    public void doNotProcessChildren() {
-        this.processChildren = false;
+    public void setAsLeaf() {
+        this.leaf = true;
+    }
+
+    public boolean isPoisoned() {
+        return level == -1;
     }
 
     @Override
@@ -71,5 +73,8 @@ public class PageMessage {
                 ", parentUrl='" + parentUrl + '\'' +
                 ", level=" + level +
                 '}';
+    }
+    public static PageMessage poisonedPill() {
+        return new PageMessage(null, null, -1, true);
     }
 }

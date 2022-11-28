@@ -17,7 +17,6 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 @Service
-@Scope("prototype")
 public class JSoupPageReader implements PageReader {
     private Queue<String> children;
     private static final Logger LOG = LoggerFactory.getLogger(JSoupPageReader.class);

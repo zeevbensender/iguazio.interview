@@ -3,7 +3,6 @@ package com.lightricks.homework.crawler.service;
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.queue.InputQueue;
 import com.lightricks.homework.crawler.service.plugins.PageProcessingPlugin;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,26 +24,22 @@ public class PageProcessor {
         this.cache = cache;
     }
 
-    @PostConstruct
-    public void init() {
-        this.processPage(1);
-    }
-
     public void processPage(int maxLevel) {
         while (input.size() != 0) {
-            try {
-                PageMessage page = this.input.poll();
-                if(page.getLevel() == maxLevel) {
-                    page.doNotProcessChildren();
+            PageMessage page = this.input.poll();
+            if (page.getLevel() == maxLevel) {
+                page.setAsLeaf();
+            }
+            if (!cache.contains(page.getUrl())) {
+                for (PageProcessingPlugin plugin : plugins) {
+                    plugin.process(page);
                 }
-                if (!cache.contains(page.getUrl())) {
-                    for (PageProcessingPlugin plugin : plugins) {
-                        plugin.process(page);
-                    }
-                }
-            } catch (InterruptedException e) {
-                LOG.warn("Interrupted: {}", e);
             }
         }
+        //Signal last page
+        for (PageProcessingPlugin plugin : plugins) {
+            plugin.process(PageMessage.poisonedPill());
+        }
+
     }
 }

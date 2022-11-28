@@ -6,7 +6,6 @@ import com.lightricks.homework.crawler.service.plugins.AggregatorPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Scope("prototype")
 public class CachingService {
 
     private static final Logger LOG = LoggerFactory.getLogger(CachingService.class);
@@ -50,27 +48,39 @@ public class CachingService {
     }
 
 
-    public void addLink(PageMessage page) {
+    public void cacheLink(PageMessage pageMessage) {
+        if(pageMessage.isPoisoned()) {
+            for (AggregatorPlugin plugin : plugins) {
+                plugin.close();
+            }
+            return;
+        }
+        LOG.info("About to cache {}", pageMessage);
+        cache(pageMessage);
+        if (pageMessage.isLastLinkOnPage()) {
+            for (AggregatorPlugin plugin : plugins) {
+                plugin.aggregatePage(map.get(pageMessage.getParentUrl()));
+            }
+        }
+    }
+
+    private void cache(PageMessage page) {
         PageNode node = PageNode.create(page.getUrl(), page.getLevel());
-        if (map.size() == 0) {
+        if (map.size() == 0) { //if the map is empty, it's a root node. parent must be empty
             if (page.getParentUrl() != null) {
                 throw new IllegalStateException("Root page must have no parent");
             }
             root = node;
-        } else {
+        } else { //if the map is not empty, therefore it cannot be root. a parent must be not null
             if (page.getParentUrl() == null) {
                 throw new IllegalStateException("Parent must not be null");
             }
             PageNode parent = map.get(page.getParentUrl());
-            if (parent == null) {
+            if (parent == null) { //if it's not a root node, the parent must be cached
                 throw new IllegalStateException("Parent is missing: " + page.getParentUrl());
             }
             parent.addChild(node);
         }
         map.put(page.getUrl(), node);
-        if (page.isLastLinkOnPage()) {
-            for (AggregatorPlugin plugin : plugins)
-                plugin.processPage(map.get(page.getParentUrl()));
-        }
     }
 }
