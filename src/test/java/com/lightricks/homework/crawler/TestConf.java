@@ -1,5 +1,6 @@
 package com.lightricks.homework.crawler;
 
+import com.lightricks.homework.crawler.service.AppContext;
 import com.lightricks.homework.crawler.service.CachingService;
 import com.lightricks.homework.crawler.service.PageReader;
 import com.lightricks.homework.crawler.service.plugins.ScoreConsolePrinter;
@@ -50,7 +51,7 @@ public class TestConf {
     public CachingService getCachingService() {
         return new CachingService(){
             {
-                plugins = List.of( new ScoreConsolePrinter());
+                plugins = List.of( new ScoreConsolePrinter(new AppContext()));
             }
         };
     }

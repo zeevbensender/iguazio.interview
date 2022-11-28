@@ -2,8 +2,9 @@ package com.lightricks.homework.crawler.service.plugins;
 
 import com.lightricks.homework.crawler.model.PageNode;
 
-public interface AggregatorPlugin {
-    void aggregatePage(PageNode node);
+import java.util.Map;
 
-    void close();
+public interface AggregatorPlugin {
+
+    void aggregate(Map<String, PageNode> cache);
 }

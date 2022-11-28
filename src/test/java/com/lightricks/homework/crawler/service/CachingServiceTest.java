@@ -26,7 +26,7 @@ class CachingServiceTest {
     @Test
     public void addRootTest() {
         String url = "https://en.wikipedia.org/";
-        cache.cacheLink(new PageMessage(url, null, 0, false));
+        cache.cacheLink(new PageMessage(url, null, 0));
         assertEquals(1, cache.size());
         assertTrue(cache.contains(url));
         PageNode root = cache.get(url);
@@ -38,9 +38,9 @@ class CachingServiceTest {
     @Test
     public void addChildTest() {
         String rootUrl = "https://en.wikipedia.org/";
-        cache.cacheLink(new PageMessage(rootUrl, null, 0, false));
+        cache.cacheLink(new PageMessage(rootUrl, null, 0));
         String childUrl = "https://en.wikipedia.org/wiki/Wikipedia:About";
-        cache.cacheLink(new PageMessage(childUrl, rootUrl, 1, true));
+        cache.cacheLink(new PageMessage(childUrl, rootUrl, 1));
         assertEquals(2, cache.size());
         assertTrue(cache.contains(rootUrl));
         assertTrue(cache.contains(childUrl));

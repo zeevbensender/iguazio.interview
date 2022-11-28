@@ -29,12 +29,15 @@ class CrawlingServiceTest {
     @Autowired
     private TestConf.MockedLinks mockedLinks;
 
+    @Autowired
+    private AppContext appContext;
+
     @BeforeEach
     void setUp() {
         input.clear();
         mockedLinks.links.clear();
         cache.clear();
-        input.offer(new PageMessage("http://abc.com", 0)); //root
+        input.offer(new PageMessage("http://abc.com", 1)); //root
         mockedLinks.addChildren(new ArrayDeque<>(List.of("http://abcz.com", "http://dfs.com"))); //1st level children; parent: abc
         mockedLinks.addChildren(new ArrayDeque<>(List.of("http://second.com", "http://level.com"))); //2nd level children; parent: abcz
         mockedLinks.addChildren(new ArrayDeque<>(List.of("http://another.second.com", "http://level.com" /*duplicate*/, "http://second.child.com"))); //2nd level children; parent: level
@@ -46,12 +49,14 @@ class CrawlingServiceTest {
 
     @Test
     public void testProcessPage() {
-        crawlingService.processPage(1);
+        appContext.setMaxLevel(1);
+        crawlingService.processPage();
         assertEquals(3, cache.size());
     }
     @Test
     public void testProcessPageNoDuplicates() {
-        crawlingService.processPage(2);
+        appContext.setMaxLevel(2);
+        crawlingService.processPage();
         assertEquals(7, cache.size());
     }
 

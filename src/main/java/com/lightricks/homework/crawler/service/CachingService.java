@@ -51,17 +51,12 @@ public class CachingService {
     public void cacheLink(PageMessage pageMessage) {
         if(pageMessage.isPoisoned()) {
             for (AggregatorPlugin plugin : plugins) {
-                plugin.close();
+                plugin.aggregate(map);
             }
             return;
         }
         LOG.info("About to cache {}", pageMessage);
         cache(pageMessage);
-        if (pageMessage.isLastLinkOnPage()) {
-            for (AggregatorPlugin plugin : plugins) {
-                plugin.aggregatePage(map.get(pageMessage.getParentUrl()));
-            }
-        }
     }
 
     private void cache(PageMessage page) {

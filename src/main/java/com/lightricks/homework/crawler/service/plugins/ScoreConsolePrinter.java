@@ -1,8 +1,7 @@
 package com.lightricks.homework.crawler.service.plugins;
 
-import com.lightricks.homework.crawler.model.PageNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.lightricks.homework.crawler.service.AppContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -12,8 +11,13 @@ import org.springframework.stereotype.Service;
 @Profile("consolePrinter")
 @Primary
 public class ScoreConsolePrinter extends AbstractScorePrinter {
+
+    public ScoreConsolePrinter(@Autowired AppContext context) {
+        super(context);
+    }
+
     @Override
-    public void close() {
+    public void print() {
         System.out.println(output);
     }
 

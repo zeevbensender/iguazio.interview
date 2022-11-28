@@ -18,17 +18,15 @@ public class CrawlingPlugin implements PageProcessingPlugin {
 
     @Override
     public void process(PageMessage pageMessage) {
-        if(pageMessage.isLeaf() || pageMessage.isPoisoned()) {
+        if (pageMessage.isLeaf() || pageMessage.isPoisoned()) {
             return;
         }
         pageReader.readPage(pageMessage.getUrl());
         while (pageReader.hasNext()) {
             String link = pageReader.readLink();
-            boolean lastOnPage = !pageReader.hasNext();
-                PageMessage child = new PageMessage(link,
-                        pageMessage.getUrl(),
-                        pageMessage.getLevel() + 1,
-                        lastOnPage);
+            PageMessage child = new PageMessage(link,
+                    pageMessage.getUrl(),
+                    pageMessage.getLevel() + 1);
             input.offer(child);
         }
     }

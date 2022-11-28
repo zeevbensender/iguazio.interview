@@ -2,6 +2,7 @@ package com.lightricks.homework.crawler;
 
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.queue.InputQueue;
+import com.lightricks.homework.crawler.service.AppContext;
 import com.lightricks.homework.crawler.service.PageProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,28 +17,6 @@ import org.springframework.core.env.StandardEnvironment;
 
 import java.util.Scanner;
 
-/*
-
-
-@SpringBootApplication
-@ComponentScan(basePackages = {"com.lupo.drivebox.app",
-		"com.lupo.drivebox.drive",
-		"com.lupo.drivebox.web",
-		"com.lupo.drivebox.service",
-		"com.lupo.drivebox.common"
-})
-public class DriveboxApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(DriveboxApplication.class, args);
-	}
-
-}
-
-
-
- */
-
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.lightricks.homework.crawler"})
 public class crawler implements CommandLineRunner {
@@ -46,6 +25,13 @@ public class crawler implements CommandLineRunner {
 	private InputQueue inputQue;
 	@Autowired
 	private PageProcessor service;
+
+	@Autowired
+	private AppContext appContext;
+
+	public crawler() {
+	}
+
 	public static void main(String[] args) {
 
 		if(args.length < 2) {
@@ -84,14 +70,14 @@ public class crawler implements CommandLineRunner {
 
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		String root = args[0];
-		String output = null;
 		if(args.length == 3) {
-			output = args[2];
+			appContext.setOutputFileName(args[2]);
 		}
 
-		inputQue.offer(new PageMessage(root, 0));
-		service.processPage(Integer.parseInt(args[1]));
+		appContext.setMaxLevel(Integer.parseInt(args[1]));
+		inputQue.offer(new PageMessage(root, 1));
+		service.processPage();
 	}
 }

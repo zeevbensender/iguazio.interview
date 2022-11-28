@@ -8,6 +8,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,13 @@ import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+/**
+ * This class will be in use only if the application runs with "jsoup" profile
+ * By default {@link CustomPageReader} is used
+ */
 @Service
+@Profile("jsoup")
+@Primary
 public class JSoupPageReader implements PageReader {
     private Queue<String> children;
     private static final Logger LOG = LoggerFactory.getLogger(JSoupPageReader.class);

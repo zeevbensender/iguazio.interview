@@ -3,6 +3,7 @@ package com.lightricks.homework.crawler.service;
 import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.queue.InputQueue;
 import com.lightricks.homework.crawler.service.plugins.PageProcessingPlugin;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,18 @@ public class PageProcessor {
     private final InputQueue input;
     private final CachingService cache;
 
-    public PageProcessor(@Autowired InputQueue inputQueue, @Autowired CachingService cache) {
+    private final AppContext appContext;
+
+    public PageProcessor(@Autowired InputQueue inputQueue, @Autowired CachingService cache, @Autowired AppContext appContext) {
         this.input = inputQueue;
         this.cache = cache;
+        this.appContext = appContext;
     }
 
-    public void processPage(int maxLevel) {
+    public void processPage() {
         while (input.size() != 0) {
             PageMessage page = this.input.poll();
-            if (page.getLevel() == maxLevel) {
+            if (page.getLevel() > appContext.getMaxLevel()) {
                 page.setAsLeaf();
             }
             if (!cache.contains(page.getUrl())) {
