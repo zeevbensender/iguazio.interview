@@ -28,8 +28,8 @@ class UrlUtilsTest {
 
     @Test
     public void testIsDomain() {
-        assertTrue(UrlUtils.isDomain("https://www.wikipedia.org/wiki/Horsepower"));
-        assertFalse(UrlUtils.isDomain("javascript:function()"));
+        assertTrue(UrlUtils.isUrl("https://www.wikipedia.org/wiki/Horsepower"));
+        assertFalse(UrlUtils.isUrl("javascript:function()"));
     }
 
 }

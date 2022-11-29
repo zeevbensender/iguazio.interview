@@ -24,7 +24,7 @@ public abstract class AbstractPageReader implements PageReader{
     protected void offerLink(String link) {
         //we don't pull links directly from the source because not all of them are valid
         //pulling links directly may cause to false positive hasNext
-        if (!UrlUtils.isDomain(link) ||
+        if (!UrlUtils.isUrl(link) ||
                 link.endsWith(".pdf") ||
                 link.endsWith(".PDF") ||
                 link.endsWith(".jpg") ||

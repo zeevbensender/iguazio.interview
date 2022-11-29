@@ -1,7 +1,6 @@
 package com.lightricks.homework.crawler.utils;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 public class UrlUtils {
@@ -19,7 +18,7 @@ public class UrlUtils {
         return base;
     }
 
-    public static boolean isDomain(String address) {
+    public static boolean isUrl(String address) {
         try {
             getDomain(address);
         } catch (MalformedURLException ignore) {
