@@ -11,8 +11,8 @@ The name of the output file should be provided as third parameter, otherwise the
 will be printed to the standard output.
 
 ### Prerequisites
-1. JDK 8 or higher
-2. Maven
+1. JDK (I'm using ```Java(TM) SE Runtime Environment (build 18.0.2.1+1-1)```, but I think, that earlier versions, starting from jdk 8, should work as well)
+2. Maven (I'm using ```apache-maven-3.8.6```)
 
 ### Build
 ```shell
@@ -41,3 +41,8 @@ Upon start, it runs the application services. Main services are listed below:
 the last link event.
 4. ```CachingService``` serves as a links cache
 5. ```AggregationPlugin``` calculates page score and prints the output data
+
+In case you don't have jdk installed, but you have docker on your local machine, you can run the app within a container:
+1. Build the image: ```$ docker build . -t lightricks```
+2. Run the container: ```docker run -v $(pwd)/tmp:/output lightricks https://en.wikipedia.org 2 /output/en.wikipedia.org.tsv```
+3. Find the results in ```<project root>/tmp``` directory

@@ -4,6 +4,7 @@ import com.lightricks.homework.crawler.model.PageMessage;
 import com.lightricks.homework.crawler.queue.InputQueue;
 import com.lightricks.homework.crawler.service.AppContext;
 import com.lightricks.homework.crawler.service.PageProcessor;
+import com.lightricks.homework.crawler.utils.UrlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,15 +33,18 @@ public class crawler implements CommandLineRunner {
 	public static void main(String[] args) {
 
 		if(args.length < 2) {
-			System.err.println("Usage: java -jar <path to jar file>/crawler-0.0.1-SNAPSHOT.jar <URL> <level> [output file]");
-			System.exit(0);
+			usage();
 		}
 		int levels = -1;
 		try {
 			levels = Integer.parseInt(args[1]);
 		}catch (ClassCastException e) {
 			System.err.println("Second argument must be integer");
-			System.exit(0);
+			usage();
+		}
+		if(!UrlUtils.isUrl(args[0])) {
+			System.out.println("First parameter must be URL");
+			usage();
 		}
 		if(levels > 3) {
 			Scanner userInput = new Scanner(System.in);  // Create a Scanner object
@@ -63,6 +67,11 @@ public class crawler implements CommandLineRunner {
 		app.run(args);
 //		SpringApplication.run(crawler.class, args);
 
+	}
+
+	private static void usage() {
+		System.err.println("Usage: java -jar <path to jar file>/crawler-0.0.1-SNAPSHOT.jar <URL> <level> [output file]");
+		System.exit(0);
 	}
 
 
