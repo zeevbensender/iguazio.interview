@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar lightricks.jar "$@"
+java -jar iguazio.jar "$@"
