@@ -8,11 +8,11 @@
 		<version>3.0.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.lightricks.homework</groupId>
-	<artifactId>crawler</artifactId>
+	<groupId>com.interview.iguazio</groupId>
+	<artifactId>iguazio</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>crawler</name>
-	<description>Lightricks Homework Exercise</description>
+	<name>iguazio</name>
+	<description>Iguaz.io interview Exercise</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -35,16 +35,14 @@
 			<version>1.15.3</version>
 		</dependency>
 
-		<!--
+		<!-- https://mvnrepository.com/artifact/org.asynchttpclient/async-http-client -->
+		<dependency>
+			<groupId>org.asynchttpclient</groupId>
+			<artifactId>async-http-client</artifactId>
+			<version>2.12.3</version>
+		</dependency>
 
-                &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.nutch/nutch &ndash;&gt;
-                <dependency>
-                    <groupId>org.apache.nutch</groupId>
-                    <artifactId>nutch</artifactId>
-                    <version>2.4</version>
-                </dependency>
 
-        -->
 	</dependencies>
 
 	<build>
@@ -57,7 +55,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.lightricks.homework.crawler.crawler</mainClass>
+                    <mainClass>com.interview.iguazio.App</mainClass>
                 </configuration>
 			</plugin>
 		</plugins>
