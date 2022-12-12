@@ -39,6 +39,5 @@ public class PageProcessor {
         }
         LOG.info("<<< EXITING >>>");
         running = false;
-
     }
 }

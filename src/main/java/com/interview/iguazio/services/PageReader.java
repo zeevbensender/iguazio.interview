@@ -34,21 +34,20 @@ public class PageReader {
     @Async("taskExecutor")
     public CompletableFuture readPageAsync(String address) {
 
+        //Create request
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(address))
                 .setHeader("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2")
                 .build();
-        CompletableFuture<HttpResponse<String>> asyncResponse = null;
-        asyncResponse = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-            CompletableFuture<String> cfBody = asyncResponse.thenApply(HttpResponse::body);
-            CompletableFuture<Integer> cfStatus = asyncResponse.thenApply(HttpResponse::statusCode);
-            cfBody.thenCombine(cfStatus, (body, status) -> new Message(body, address, Thread.currentThread().getName(), status))
-                            .thenApply(pubSub::offer);
-
-
-//        LOG.info("Status code: {}", asyncResultStatusCode);
-
+        //Execute the request
+        CompletableFuture<HttpResponse<String>>
+                asyncResponse = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        //Get response CompletableFutures
+        CompletableFuture<String> cfBody = asyncResponse.thenApply(HttpResponse::body);
+        CompletableFuture<Integer> cfStatus = asyncResponse.thenApply(HttpResponse::statusCode);
+        cfBody.thenCombine(cfStatus, (body, status) -> new Message(body, address, Thread.currentThread().getName(), status))
+                .thenApply(pubSub::offer);
         return asyncResponse;
     }
 
@@ -56,7 +55,7 @@ public class PageReader {
     public CompletableFuture readPage(String address) {
 //        LOG.info("ADDRESS: {}", address);
         try {
-            if(address == null) {
+            if (address == null) {
                 pubSub.offer(Message.poisonedPill());
                 return CompletableFuture.supplyAsync(() -> "do nothing");
             }
@@ -74,8 +73,7 @@ public class PageReader {
             pubSub.offer(new Message(sb.toString(), address, Thread.currentThread().getName(), 0));
         } catch (FileNotFoundException e) {
             LOG.error("Page not found: {}. Error: {}", address, e.getMessage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             LOG.error("Failed to get {} URL. Error: {}", address, e.getMessage(), e);
         }

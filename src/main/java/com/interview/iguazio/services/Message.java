@@ -53,6 +53,7 @@ public class Message {
                 "wordsCount='" + text.split(" ").length + '\'' +
                 ", url='" + url + '\'' +
                 ", threadName='" + threadName + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

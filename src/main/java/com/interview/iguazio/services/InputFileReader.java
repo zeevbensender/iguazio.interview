@@ -16,14 +16,6 @@ public class InputFileReader {
     public Stream<String> readInputFile(String path) {
         LOG.info("<<< Reading file: {} >>>", path);
         try {
-/*
-            Files.lines(new File(path)
-                            .toPath())
-                    .map(s -> s.trim())
-                    .filter(s -> !s.isEmpty())
-                    .forEach(System.out::println);
-*/
-
             return Files.lines(new File(path)
                             .toPath())
                     .map(s -> s.trim())
